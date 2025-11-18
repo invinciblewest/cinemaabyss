@@ -135,7 +135,7 @@ jobs:
         run: |
           cd tests/postman
           npm install
-          npm run test:docker
+          npm run test
 
       - name: Stop stack
         if: always()

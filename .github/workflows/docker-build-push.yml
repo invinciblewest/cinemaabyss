@@ -126,4 +126,23 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      
+      - name: Start integration stack
+        run: |
+          docker compose -f docker-compose.yml up -d kafka zookeeper postgres proxy events
+          sleep 25
+
+      - name: Run Postman tests
+        run: |
+          docker run --network host --rm -v "$PWD/tests/postman:/etc/newman" postman/newman:alpine \
+            run /etc/newman/collection.json --env-var BASE_URL=http://localhost:8000
+
+      - name: Dump logs on failure
+        if: failure()
+        run: |
+          docker logs proxy || true
+          docker logs events || true
+          docker compose ps
+
+      - name: Stop stack
+        if: always()
+        run: docker compose down -v

@@ -56,8 +56,8 @@
 Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
 Приложите скриншот тестов и скриншот состояния топиков Kafka из UI http://localhost:8090
 
-- [Скриншот результата прохождения тестов](./test-result.png)
-- [Скриншот систояния топиков в kafka](./topics.png)
+- [Скриншот результата прохождения тестов](screens/test-result.png)
+- [Скриншот систояния топиков в kafka](screens/topics.png)
 
 # Задание 3
 
@@ -275,9 +275,9 @@ cat .docker/config.json | base64
 #### Шаг 3
 Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
 
-- [Скриншот с результатом тестов](./kuber-test-result.png)
-- [Скриншот с логов event-service](./events-log.png)
-- [Скриншот cinemaabyss.example.com/api/movies](./movies-output.png)
+- [Скриншот с результатом тестов](screens/kuber-test-result.png)
+- [Скриншот с логов event-service](screens/events-log.png)
+- [Скриншот cinemaabyss.example.com/api/movies](screens/movies-output.png)
 
 
 # Задание 4
@@ -353,6 +353,10 @@ minikube tunnel
 Потом вызовите 
 https://cinemaabyss.example.com/api/movies
 и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+
+- [helm install result](screens/helm-install.png)
+- [helm dashboard](screens/helm-dashboard.png)
+- [helm movies](screens/helm-movies.png)
 
 ## Удаляем все
 

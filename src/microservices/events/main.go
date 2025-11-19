@@ -118,8 +118,9 @@ func (app *App) handlePayment(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *App) publish(w http.ResponseWriter, kind, topic string, payload json.RawMessage) {
+	id := kind + "-" + uuid.NewString()
 	ev := Event{
-		ID:        kind + "-" + uuid.NewString(),
+		ID:        id,
 		Type:      kind,
 		Timestamp: time.Now().UTC(),
 		Payload:   payload,
@@ -159,6 +160,7 @@ func (app *App) publish(w http.ResponseWriter, kind, topic string, payload json.
 		Event:     ev,
 	}
 	writeJSON(w, http.StatusCreated, resp)
+	log.Printf("event %s has been published", id)
 }
 
 func main() {

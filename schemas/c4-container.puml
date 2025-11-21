@@ -1,0 +1,47 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Диаграмма контейнеров "Кинобездна"
+
+Person(user, "Пользователь")
+
+System_Boundary(cinemaAbyss, "Онлайн кинотеатр") {
+  Container(webApplication, "Web Application", "React JS")
+  Container(mobileApplication, "Mobile Application", "Swift/Kotlin")
+
+  Container(apiGateway, "API Gateway", "Go", "Единая точка входа для маршрутизации трафика между сервисами")
+
+  Container(userService, "User Service", "Go", "Данные пользователя")
+  Container(moviesService, "Movies Service", "Go", "Метаданные о фильмах")
+  Container(eventsService, "Events Service", "Go", "Работа с событиями")
+  Container(streamingService, "Streaming Service", "Go", "Стриминг видео")
+  Container(paymentService, "Payment Service", "Go", "Оплата, интеграция с платёжными системами")
+
+  ContainerDb(userDatabase, "User Database", "PostgreSQL")
+  ContainerDb(moviesDatabase, "Movies Database", "PostgreSQL")
+  ContainerDb(streamingDatabase, "Streaming Database", "PostgreSQL")
+  ContainerDb(paymentDatabase, "Payment Database", "PostgreSQL")
+  Container(kafka, "Kafka", "Apache Kafka")
+}
+
+System_Ext(externalStreaming, "Внешние системы предоставляющие контент")
+System_Ext(externalPayment, "Платёжные системы")
+
+Rel(user, webApplication, "Взаимодействует с веб-интерфейсов", "HLS/REST/HTTPS")
+Rel(user, mobileApplication, "Взаимодействует с мобильным приложением", "HLS/REST/HTTPS")
+Rel(webApplication, apiGateway, "Отправляет запросы для взаимодействия с системой", "HLS/REST/HTTPS")
+Rel(mobileApplication, apiGateway, "Отправляет запросы для взаимодействия с системой", "HLS/REST/HTTPS")
+Rel_L(apiGateway, userService, "Авторизация, получение данных пользователя", "REST/HTTP")
+Rel(apiGateway, eventsService, "Публикация событий", "REST/HTTP")
+Rel(apiGateway, moviesService, "Получение данных о фильмах", "REST/HTTP")
+Rel(apiGateway, streamingService, "Стриминг видео", "HLS/HTTP")
+Rel(apiGateway, paymentService, "Оплата пользования сервисом", "REST/HTTP")
+Rel(userService, userDatabase, "Чтение/запись", "SQL")
+Rel(moviesService, moviesDatabase, "Чтение/запись", "SQL")
+Rel(streamingService, streamingDatabase, "Чтение/запись", "SQL")
+Rel(paymentService, paymentDatabase, "Чтение/запись", "SQL")
+Rel(eventsService, kafka, "Публикует/потребляет события", "Kafka")
+Rel(streamingService, externalStreaming, "Получает контент", "Стандартные протоколы")
+Rel(paymentService, externalPayment, "Интеграция с платёжными системами", "Стандартные протоколы")
+
+@enduml
